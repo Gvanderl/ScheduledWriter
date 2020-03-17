@@ -24,7 +24,10 @@ def write_new_line():
 
 
 def push_text():
-    sp.run("")
+    sp.run("git add poem.txt", check=True, shell=True)
+    sp.run(f"git commit -m '{config.commit_message}'", check=True, shell=True)
+    sp.run("git push -u origin master -f", check=True, shell=True)
+
 
 if __name__=="__main__":
     write_new_line()
