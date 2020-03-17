@@ -1,6 +1,7 @@
 import config
-import secret_stuff
 import subprocess as sp
+import datetime
+
 
 def get_new_line():
     return "Temporary\n"
@@ -29,6 +30,17 @@ def push_text():
     sp.run("git push -u origin master -f", check=True, shell=True)
 
 
-if __name__=="__main__":
-    write_new_line()
-    push_text()
+def get_pushes_for_day(date=datetime.datetime.now()):
+    timedelta = date - config.start_date
+    week = (timedelta.days + (config.start_date.weekday() + 1) % 7) // 7
+    weekday = (date.weekday() + 1) % 7
+    if weekday >= len(config.image) or week >= len(config.image[weekday]):
+        return 0
+        # TODO notify
+    return config.image[weekday][week]
+
+
+if __name__ == "__main__":
+    for i in range(get_pushes_for_day()):
+        write_new_line()
+        push_text()
