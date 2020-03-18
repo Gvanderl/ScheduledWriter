@@ -35,6 +35,7 @@ def get_pushes_for_day(date=datetime.datetime.now()):
     week = (timedelta.days + (config.start_date.weekday() + 1) % 7) // 7
     weekday = (date.weekday() + 1) % 7
     if weekday >= len(config.image) or week >= len(config.image[weekday]):
+        print("Ran out of bounds")
         return 0
         # TODO notify
     return config.image[weekday][week]
