@@ -18,10 +18,14 @@ def generate_probs(text):
     return chain
 
 
-def generate_text(num_words, probs):
+def generate_text(probs, min_words=0):
     sentence = [np.random.choice(list(probs.keys()))]
-    for i in range(1, num_words):
-        sentence.append(np.random.choice(list(probs[sentence[i-1]].keys()), p=list(probs[sentence[i-1]].values())))
+    while True:
+        word = np.random.choice(list(probs[sentence[-1]].keys()), p=list(probs[sentence[-1]].values()))
+        sentence.append(word)
+        # End condition
+        if len(sentence) > min_words and word[-1] in punctuation:
+            break
     sentence[0] = sentence[0].capitalize()
     return " ".join(sentence)
 
@@ -30,5 +34,5 @@ if __name__ == "__main__":
     poems = open(config.clean_txt_path, "r", encoding='utf-8-sig').read()
     poems = poems.lower().replace("\n", " ").split(' ')
     p = generate_probs(poems)
-    out = generate_text(10, p)
+    out = generate_text(p, 5)
     print(out)
