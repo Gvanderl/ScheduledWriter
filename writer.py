@@ -1,30 +1,34 @@
-import random
 import config
+from collections import defaultdict
+import numpy as np
+from string import punctuation
 
-poems = open(config.clean_txt_path, "r", encoding='utf-8-sig').read()
-poems = poems.replace("\n", " ").split(' ')
 
-index = 1
-chain = {}
-count = 10	# Desired word count of output
+def generate_probs(text):
+    chain = defaultdict(lambda: defaultdict(lambda: 0.))
 
-# This loop creates a dicitonary called "chain". Each key is a word, and the value of each key
-# is an array of the words that immediately followed it.
-for word in poems[index:]:
-	key = poems[index - 1]
-	if key in chain:
-		chain[key].append(word)
-	else:
-		chain[key] = [word]
-	index += 1
+    for ind in range(len(text) - 1):
+        chain[text[ind]][text[ind + 1]] += 1
 
-word1 = random.choice(list(chain.keys())) # random first word
-message = word1.capitalize()
+    for k, v in chain.items():
+        total = sum(v.values())
+        for word, count in v.items():
+            chain[k][word] = count / total
 
-# Picks the next word over and over until word count achieved
-while len(message.split(' ')) < count:
-	word2 = random.choice(chain[word1])
-	word1 = word2
-	message += ' ' + word2
+    return chain
 
-print(message)
+
+def generate_text(num_words, probs):
+    sentence = [np.random.choice(list(probs.keys()))]
+    for i in range(1, num_words):
+        sentence.append(np.random.choice(list(probs[sentence[i-1]].keys()), p=list(probs[sentence[i-1]].values())))
+    sentence[0] = sentence[0].capitalize()
+    return " ".join(sentence)
+
+
+if __name__ == "__main__":
+    poems = open(config.clean_txt_path, "r", encoding='utf-8-sig').read()
+    poems = poems.lower().replace("\n", " ").split(' ')
+    p = generate_probs(poems)
+    out = generate_text(10, p)
+    print(out)
