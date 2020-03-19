@@ -1,6 +1,7 @@
 import config
 import subprocess as sp
 import datetime
+from pathlib import Path
 from writer import learn_and_write
 
 
@@ -26,9 +27,11 @@ def write_new_line():
 
 
 def push_text():
-    sp.run("git add poem.txt", check=True, shell=True)
-    sp.run(f"git commit -m '{config.commit_message}'", check=True, shell=True)
-    sp.run("git push -u origin master -f", check=True, shell=True)
+    local_dir = Path(__file__).resolve().parent.as_posix()
+    sp.run(f"cd {local_dir}", check=True, shell=True)
+    sp.run(f"git add poem.txt", check=True, shell=True)
+    sp.run(f"git commit -m 'The poem grows'", check=True, shell=True)
+    sp.run(f"git push -u origin master -f", check=True, shell=True)
     print("Pushed to master")
 
 
