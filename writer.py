@@ -30,9 +30,12 @@ def generate_text(probs, min_words=0):
     return " ".join(sentence)
 
 
-if __name__ == "__main__":
+def learn_and_write():
     poems = open(config.clean_txt_path, "r", encoding='utf-8-sig').read()
     poems = poems.lower().replace("\n", " ").split(' ')
     p = generate_probs(poems)
-    out = generate_text(p, 5)
-    print(out)
+    return generate_text(p, 5)
+
+
+if __name__ == "__main__":
+    print(learn_and_write())

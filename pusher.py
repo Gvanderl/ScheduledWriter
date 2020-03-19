@@ -1,10 +1,11 @@
 import config
 import subprocess as sp
 import datetime
+from writer import learn_and_write
 
 
 def get_new_line():
-    return "Temporary\n"
+    return learn_and_write()
 
 
 def write_to_file(text):
