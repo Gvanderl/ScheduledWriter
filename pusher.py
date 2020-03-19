@@ -27,11 +27,10 @@ def write_new_line():
 
 
 def push_text():
-    local_dir = Path(__file__).resolve().parent.as_posix()
-    sp.run(f"cd {local_dir}", check=True, shell=True)
-    sp.run(f"git add poem.txt", check=True, shell=True)
-    sp.run(f"git commit -m 'The poem grows'", check=True, shell=True)
-    sp.run(f"git push -u origin master -f", check=True, shell=True)
+    git_dir = Path(__file__).resolve().parent.as_posix() / ".git"
+    sp.run(f"git --git-dir {git_dir} add poem.txt", check=True, shell=True)
+    sp.run(f"git --git-dir {git_dir} commit -m 'The poem grows'", check=True, shell=True)
+    sp.run(f"git --git-dir {git_dir} push -u origin master -f", check=True, shell=True)
     print("Pushed to master")
 
 
