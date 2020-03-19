@@ -19,7 +19,7 @@ def get_lines(path):
 
 def clean_text(path):
     text = get_lines(path)
-    text = [l.strip().replace("·", "") for l in text if len(l.strip()) > 0]
+    text = [l.strip().replace("·", "") for l in text if len(l.strip().replace("·", "")) > 0]
 
     # Get the table to remove its contents from the body
     table_ind = text.index("TABLE")

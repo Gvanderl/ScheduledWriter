@@ -38,4 +38,8 @@ def learn_and_write():
 
 
 if __name__ == "__main__":
-    print(learn_and_write())
+    poems = open(config.clean_txt_path, "r", encoding='utf-8-sig').read()
+    poems = poems.lower().replace("\n", " ").split(' ')
+    p = generate_probs(poems)
+    for i in range(100):
+        print(generate_text(p, 5))
