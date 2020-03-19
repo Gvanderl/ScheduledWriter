@@ -28,6 +28,7 @@ def push_text():
     sp.run("git add poem.txt", check=True, shell=True)
     sp.run(f"git commit -m '{config.commit_message}'", check=True, shell=True)
     sp.run("git push -u origin master -f", check=True, shell=True)
+    print("Pushed to master")
 
 
 def get_pushes_for_day(date=datetime.datetime.now()):
