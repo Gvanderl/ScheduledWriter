@@ -43,6 +43,5 @@ def get_pushes_for_day(date=datetime.datetime.now()):
 
 
 if __name__ == "__main__":
-    for i in range(get_pushes_for_day()):
-        write_new_line()
-        push_text()
+    write_new_line()
+    push_text()
