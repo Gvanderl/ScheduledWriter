@@ -27,7 +27,7 @@ def write_new_line():
 
 
 def push_text():
-    git_dir = Path(__file__).resolve().parent.as_posix() / ".git"
+    git_dir = Path(__file__).resolve().parent / ".git"
     sp.run(f"git --git-dir {git_dir} add poem.txt", check=True, shell=True)
     sp.run(f"git --git-dir {git_dir} commit -m 'The poem grows'", check=True, shell=True)
     sp.run(f"git --git-dir {git_dir} push -u origin master -f", check=True, shell=True)
